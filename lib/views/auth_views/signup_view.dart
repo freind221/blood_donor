@@ -103,7 +103,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: CustomDropDown(),
+                    child: CustomDropDown(
+                      items: ['Donor', 'Acceptor', 'Admin'],
+                      title: 'Select your role',
+                      check: 'Role',
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -111,6 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   CustomButton(
                       loading: isloading,
                       onTap: () async {
+                        print(dropDown.role);
                         setState(() {
                           isloading = true;
                         });
@@ -124,18 +129,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context);
 
                           if (res) {
+                            if (dropDown.role == 'Acceptor') {
+                              Navigator.pushNamed(
+                                  context, AcceptorHome.routeName);
+                            } else if (dropDown.role == 'Donor') {
+                              Navigator.pushNamed(context, DonorHome.routeName);
+                            } else if (dropDown.role == 'Admin') {
+                              Navigator.pushNamed(context, AdminHome.routeName);
+                            }
                             setState(() {
                               isloading = false;
                             });
-                          }
-
-                          if (dropDown.role == 'Acceptor') {
-                            Navigator.pushNamed(
-                                context, AcceptorHome.routeName);
-                          } else if (dropDown.role == 'Donor') {
-                            Navigator.pushNamed(context, DonorHome.routeName);
-                          } else if (dropDown.role == 'Admin') {
-                            Navigator.pushNamed(context, AdminHome.routeName);
+                          } else {
+                            setState(() {
+                              isloading = false;
+                            });
                           }
                         } else {
                           setState(() {

@@ -8,6 +8,7 @@ import 'package:blood_donor/views/homes/acceptor_home.dart';
 import 'package:blood_donor/views/homes/admin_home.dart';
 import 'package:blood_donor/views/homes/donor_home.dart';
 import 'package:blood_donor/views/onboardin_screen.dart';
+import 'package:blood_donor/views/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -43,17 +44,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light().copyWith(
-        scaffoldBackgroundColor: backgroundColor,
-        appBarTheme: AppBarTheme.of(context).copyWith(
-            backgroundColor: backgroundColor,
-            elevation: 0,
-            titleTextStyle: const TextStyle(
-                color: primaryColor,
-                fontSize: 18,
-                fontWeight: FontWeight.bold)),
-        iconTheme: const IconThemeData(color: primaryColor),
-      ),
+      theme: ThemeData.dark(),
+      // theme: ThemeData.light().copyWith(
+      //   // scaffoldBackgroundColor: backgroundColor,
+      //   // appBarTheme: AppBarTheme.of(context).copyWith(
+      //   //     backgroundColor: backgroundColor,
+      //   //     elevation: 0,
+      //   //     titleTextStyle: const TextStyle(
+      //   //         color: primaryColor,
+      //   //         fontSize: 18,
+      //   //         fontWeight: FontWeight.bold)),
+      //   // iconTheme: const IconThemeData(color: Colors.black),
+      // ),
       home: StreamBuilder(
         stream: AuthMethods().authChanges,
         builder: (context, snapshot) {
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
             }
             return Container();
           }
-          return const OnBoardingScreen();
+          return const SplashScreen();
         },
       ),
       routes: {

@@ -95,18 +95,27 @@ class _LoginScreenState extends State<LoginScreen> {
                               context);
 
                           if (res) {
+                            if (user.user.role == 'Acceptor') {
+                              Navigator.pushNamed(
+                                  context, AcceptorHome.routeName);
+                            } else if (user.user.role == 'Donor') {
+                              Navigator.pushNamed(context, DonorHome.routeName);
+                            } else if (user.user.role == 'Admin') {
+                              Navigator.pushNamed(context, AdminHome.routeName);
+                            }
+                            setState(() {
+                              isloading = false;
+                            });
+                          } else {
                             setState(() {
                               isloading = false;
                             });
                           }
-                          if (user.user.role == 'Acceptor') {
-                            Navigator.pushNamed(
-                                context, AcceptorHome.routeName);
-                          } else if (user.user.role == 'Donor') {
-                            Navigator.pushNamed(context, DonorHome.routeName);
-                          } else if (user.user.role == 'Admin') {
-                            Navigator.pushNamed(context, AdminHome.routeName);
-                          }
+                        } else {
+                          setState(() {
+                            isloading = false;
+                            print('------------------Something wrong');
+                          });
                         }
                       },
                       text: 'Login'),
