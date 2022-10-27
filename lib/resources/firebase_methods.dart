@@ -29,8 +29,8 @@ class AuthMethods {
         model.User.fromMap(await getCurrentUser(_auth.currentUser!.uid) ?? {}));
   }
 
-  Future<bool> signupUser(String email, String password, String username,
-      String role, BuildContext context) async {
+  Future signupUser(String email, String password, String username, String role,
+      BuildContext context) async {
     bool res = false;
     _auth
         .createUserWithEmailAndPassword(email: email, password: password)
@@ -43,11 +43,10 @@ class AuthMethods {
             email: email.trim(),
             role: role);
         Provider.of<UserProvider>(context, listen: false).setUser(user);
-        _firestore
-            .doc(_auth.currentUser!.uid)
-            .set(user.toMap())
-            .then((value) {})
-            .onError((error, stackTrace) {
+        _firestore.doc(_auth.currentUser!.uid).set(user.toMap()).then((value) {
+          res = true;
+          Message.toatsMessage('Navigating to home');
+        }).onError((error, stackTrace) {
           Message.toatsMessage(error.toString());
         });
       }
@@ -55,7 +54,6 @@ class AuthMethods {
       res = false;
       Message.toatsMessage(error.toString());
     });
-    return res;
   }
 
   Future<bool> loginUser(

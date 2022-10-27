@@ -58,6 +58,8 @@ class _CustomDropDownState extends State<CustomDropDown> {
               dropDown.setRole(selectedValue!);
             } else if (widget.check == 'Gender') {
               dropDown.setGender(selectedValue!);
+            } else if (widget.check == 'BloodGroup') {
+              dropDown.setBloodGroup(selectedValue!);
             }
           });
         },

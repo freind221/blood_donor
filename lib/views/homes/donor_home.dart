@@ -16,18 +16,20 @@ class _DonorHomeState extends State<DonorHome> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-          // leading: IconButton(
-          //     onPressed: () {
-          //       AuthMethods().logout(context);
-          //     },
-          //     icon: const Icon(
-          //       Icons.logout,
-          //       color: Colors.black,
-          //     )),
-          //backgroundColor: const Color(0xff764abc),
-          ),
+        iconTheme: const IconThemeData(color: Colors.black),
+        // leading: IconButton(
+        //     onPressed: () {
+        //       AuthMethods().logout(context);
+        //     },
+        //     icon: const Icon(
+        //       Icons.logout,
+        //       color: Colors.black,
+        //     )),
+        //backgroundColor: const Color(0xff764abc),
+      ),
       drawer: CustomDrawer(),
       body: Column(
         children: [

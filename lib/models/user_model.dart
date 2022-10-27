@@ -3,12 +3,14 @@ class User {
   final String username;
   final String email;
   final String role;
+  final String? image;
 
   User(
       {required this.uid,
       required this.username,
       required this.email,
-      required this.role});
+      required this.role,
+      this.image});
 
   Map<String, dynamic> toMap() {
     return {
@@ -16,6 +18,7 @@ class User {
       'username': username,
       'email': email,
       'role': role,
+      'image': image,
     };
   }
 
@@ -24,6 +27,7 @@ class User {
         uid: map['uid'] ?? '',
         username: map['username'] ?? '',
         email: map['email'] ?? '',
-        role: map['role']);
+        role: map['role'] ?? '',
+        image: map['image'] ?? '');
   }
 }

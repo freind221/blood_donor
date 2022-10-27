@@ -1,6 +1,8 @@
 import 'package:blood_donor/providers/dropdown_provider.dart';
+import 'package:blood_donor/providers/profile_provider.dart';
 import 'package:blood_donor/providers/user_provider.dart';
 import 'package:blood_donor/resources/firebase_methods.dart';
+import 'package:blood_donor/resources/firestore_methods.dart';
 import 'package:blood_donor/utilis/colors.dart';
 import 'package:blood_donor/views/auth_views/login_view.dart';
 import 'package:blood_donor/views/auth_views/signup_view.dart';
@@ -8,6 +10,7 @@ import 'package:blood_donor/views/homes/acceptor_home.dart';
 import 'package:blood_donor/views/homes/admin_home.dart';
 import 'package:blood_donor/views/homes/donor_home.dart';
 import 'package:blood_donor/views/onboardin_screen.dart';
+import 'package:blood_donor/views/settingsPage.dart';
 import 'package:blood_donor/views/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -31,7 +34,8 @@ Future<void> main() async {
   }
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: ((_) => UserProvider())),
-    ChangeNotifierProvider(create: ((_) => DropDownProvider()))
+    ChangeNotifierProvider(create: ((_) => DropDownProvider())),
+    ChangeNotifierProvider(create: ((_) => UserProfileProvider()))
   ], child: const MyApp()));
 }
 
@@ -44,18 +48,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      // theme: ThemeData.light().copyWith(
-      //   // scaffoldBackgroundColor: backgroundColor,
-      //   // appBarTheme: AppBarTheme.of(context).copyWith(
-      //   //     backgroundColor: backgroundColor,
-      //   //     elevation: 0,
-      //   //     titleTextStyle: const TextStyle(
-      //   //         color: primaryColor,
-      //   //         fontSize: 18,
-      //   //         fontWeight: FontWeight.bold)),
-      //   // iconTheme: const IconThemeData(color: Colors.black),
-      // ),
+      theme: ThemeData.light().copyWith(
+        scaffoldBackgroundColor: backgroundColor,
+        appBarTheme: AppBarTheme.of(context).copyWith(
+            backgroundColor: backgroundColor,
+            elevation: 0,
+            titleTextStyle: const TextStyle(
+                color: primaryColor,
+                fontSize: 18,
+                fontWeight: FontWeight.bold)),
+        primaryIconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: primaryColor),
+      ),
       home: StreamBuilder(
         stream: AuthMethods().authChanges,
         builder: (context, snapshot) {
@@ -68,6 +72,7 @@ class MyApp extends StatelessWidget {
             //If someone is trying to login. And he has an account
             //For that we are storing data to our provider
             AuthMethods().setToProvider(context);
+            FireStoreMethods().setToProvider(context);
             String role = Provider.of<UserProvider>(context).user.role;
             if (role == 'Acceptor') {
               return const AcceptorHome();
@@ -88,6 +93,7 @@ class MyApp extends StatelessWidget {
         DonorHome.routeName: (context) => const DonorHome(),
         AdminHome.routeName: (context) => const AdminHome(),
         AcceptorHome.routeName: (context) => const AcceptorHome(),
+        SettingsPage.routeName: (context) => const SettingsPage()
       },
     );
   }

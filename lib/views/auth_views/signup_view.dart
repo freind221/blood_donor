@@ -114,21 +114,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   CustomButton(
                       loading: isloading,
-                      onTap: () async {
+                      onTap: () {
                         print(dropDown.role);
                         setState(() {
                           isloading = true;
                         });
 
                         if (formKey.currentState!.validate()) {
-                          bool res = await authMethods.signupUser(
-                              _emailController.text,
-                              _passwordController.text,
-                              _userController.text,
-                              dropDown.role,
-                              context);
-
-                          if (res) {
+                          authMethods
+                              .signupUser(
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _userController.text,
+                                  dropDown.role,
+                                  context)
+                              .then((value) {
                             if (dropDown.role == 'Acceptor') {
                               Navigator.pushNamed(
                                   context, AcceptorHome.routeName);
@@ -140,11 +140,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             setState(() {
                               isloading = false;
                             });
-                          } else {
+                          }).onError((error, stackTrace) {
                             setState(() {
                               isloading = false;
                             });
-                          }
+                          });
                         } else {
                           setState(() {
                             isloading = false;

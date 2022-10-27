@@ -14,7 +14,7 @@ class StorageMethods {
           reference.putData(file, SettableMetadata(contentType: 'image/jpg'));
       TaskSnapshot snapshot = await uploadTask;
       stringUrl = await snapshot.ref.getDownloadURL();
-      print('---------------------------------------$stringUrl');
+      
     } catch (e) {
       Message.toatsMessage(e.toString());
     }
